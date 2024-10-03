@@ -34,13 +34,23 @@ class Category(Base):
     title = Column(String)
 
 class Slot(Base):
+
     __tablename__ = "slots"
 
     id = Column(Integer, primary_key=True, index=True)
     doctor_id = Column(Integer, ForeignKey('doctors.id'))
     office_id = Column(Integer, ForeignKey('offices.id'))
+    date = Column(String)
     type = Column(String)
     starts_at = Column(String)
     ends_at = Column(String)
     precalculated_cost = Column(String)
     final_cost = Column(String)
+
+class Office(Base):
+    __tablename__ = "offices"
+
+    id = Column(Integer, primary_key=True, index=True)
+    address = Column(String)
+    contacts = Column(String)
+

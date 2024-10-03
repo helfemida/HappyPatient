@@ -1,17 +1,20 @@
+
 from sqlalchemy.orm import Session
 from src.models import Doctor, Category, Slot
 from typing import List, Optional
+from src.schemas.doctor_schemas import DoctorResourceResponse
+
 
 def search_doctors(
-    db: Session,
-    fullname: Optional[str] = None,
-    categories: Optional[List[str]] = None,
-    min_exp_years: Optional[int] = None,
-    max_exp_years: Optional[int] = None,
-    offices: Optional[List[str]] = None,
-    workdays: Optional[List[str]] = None,
-    sort_by: Optional[str] = None,
-    asc_order: Optional[bool] = True
+        db: Session,
+        fullname: Optional[str] = None,
+        categories: Optional[List[str]] = None,
+        min_exp_years: Optional[int] = None,
+        max_exp_years: Optional[int] = None,
+        offices: Optional[List[str]] = None,
+        workdays: Optional[List[str]] = None,
+        sort_by: Optional[str] = None,
+        asc_order: Optional[bool] = True
 ):
     query = db.query(Doctor).join(Category, Doctor.category_id == Category.id).join(Slot, Doctor.id == Slot.doctor_id)
 
@@ -44,3 +47,16 @@ def search_doctors(
     query = query.distinct(Doctor.id)
     print(query)
     return query.all()
+
+
+def get_doctor_resources(db: Session):
+    query = db.query(Doctor.id, Doctor.name, Doctor.surname)
+
+    resources = list()
+    doctors = query.all()
+
+    for (ids, names, surnames) in doctors:
+        resources.append({"id": ids, "name": names, "surname": surnames})
+
+    return resources
+

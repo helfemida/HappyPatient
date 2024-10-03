@@ -16,3 +16,5 @@ def get_doctors(
 ) -> List[DoctorOut]:
     doctors = search_doctors(db, fullname, categories, min_exp_years, max_exp_years, offices, workdays, sort_by, asc_order)
     return doctors
+
+
